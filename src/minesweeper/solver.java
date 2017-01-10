@@ -14,7 +14,8 @@ public class solver {
 	float[][] clickP = new float[30][16];
 	
 	//threshold value
-	float a = 0.7f;
+	double a = 0.7f;
+	boolean hasClicked = false;
 	
 	public void scanner() {
 		//scan through the board and assign the adjacent probabilities
@@ -53,29 +54,11 @@ public class solver {
 						if (sx >= 0 && sx < 30 && sy >= 0 && sy < 16) {
 							if ((sx != x) || (sy != y)) {
 								clickP[x][y] = clickP[x][y] + adjP[sx][sy];
-							}
-							
-					}
+							}					
+						}
+					}					
 				}
-				//clickP[x][y] = clickP[x][y]/adjC[x][y];
-					
 			}
-		}
-	}
-		
-		System.out.println("------------------------");
-		System.out.println("ClickP");
-		System.out.println("------------------------");
-		
-		for (int y = 0; y < 16; y++) {
-			for (int x = 0; x < 30; x++) {
-				//if (botBoard[x][y] == 10) {
-				//	System.out.print("- ");
-				//} else {
-					System.out.print(clickP[x][y] + " ");
-				//}
-			}
-				System.out.println();
 		}
 	}
 	
@@ -87,46 +70,18 @@ public class solver {
 			//	System.out.println("click: " + clickP[x][y]);
 				if ((clickP[x][y] < a) && (clickP[x][y] != 0)) {
 					//System.out.println("x: " + x + ", y: " + y);
-					//if (gameBoard[x][y] == 10) {
-					//	return true;
-					//} else {
+					hasClicked = true;
+					if (gameBoard[x][y] == 9) {
+						a = a - 0.01;
+						System.out.println("a: " + a);
+						return false;
+					} else {
 					botBoard[x][y] = gameBoard[x][y];
-					//}
+					}
+				}
 			}
-		}
-		}
-		
-		System.out.println("------------------------");
-		System.out.println("Updated");
-		System.out.println("------------------------");
-		
-		for (int y = 0; y < 16; y++) {
-			for (int x = 0; x < 30; x++) {
-				//if (botBoard[x][y] == 10) {
-				//	System.out.print("- ");
-				//} else {
-					System.out.print(botBoard[x][y] + " ");
-				//}
-			}
-				System.out.println();
-		}
-		
-		System.out.println("------------------------");
-		System.out.println("ClickP");
-		System.out.println("------------------------");
-		
-		for (int y = 0; y < 16; y++) {
-			for (int x = 0; x < 30; x++) {
-				//if (botBoard[x][y] == 10) {
-				//	System.out.print("- ");
-				//} else {
-					System.out.print(clickP[x][y] + " ");
-				//}
-			}
-				System.out.println();
-		}
-		
-		return false;
+		}	
+		return true;
 	}
 	
 }
